@@ -1,0 +1,6 @@
+{
+  "name": "AI Resume Analyzer",
+  "description": "An intelligent full-stack AI platform to analyze resumes, optimize ATS scores, match against job descriptions, and generate custom interview practice questions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
