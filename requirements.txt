@@ -6,3 +6,4 @@ plotly
 PyPDF2
 Pillow
 pdfplumber
+fpdf2
