@@ -27,3 +27,4 @@ https://github.com/Hinal-Tank/AI-Resume-Analyzer
 - Pandas
 - Plotly
 - PyPDF2
+- fpdf2
