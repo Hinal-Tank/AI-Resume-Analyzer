@@ -6,6 +6,7 @@ import pandas as pd
 from utils.pdf_reader import extract_text_from_pdf
 from utils.prompts import RESUME_ANALYSIS_PROMPT_TEMPLATE
 from utils.llm_handler import call_gemini_with_prompt, get_gemini_client
+from utils.pdf_report import generate_pdf_report
 
 st.set_page_config(
     page_title="AI Resume Analyzer - Resume Analysis",
@@ -280,9 +281,24 @@ ACTIONABLE ADVICE / WRITING ENHANCEMENTS:
 {chr(10).join(['- ' + r for r in res.get('recommendations', [])])}
 """
     
-    st.download_button(
-        label="Download Stored Resume Analysis Text (.TXT)",
-        data=report_text,
-        file_name=f"ATS_Audit_Report_{st.session_state['candidate_name'].replace(' ', '_')}.txt",
-        mime="text/plain"
-    )
+    dl_col1, dl_col2 = st.columns(2)
+
+    with dl_col1:
+        st.download_button(
+            label="Download Resume Analysis Text (.TXT)",
+            data=report_text,
+            file_name=f"ATS_Audit_Report_{st.session_state['candidate_name'].replace(' ', '_')}.txt",
+            mime="text/plain"
+        )
+
+    with dl_col2:
+        try:
+            pdf_bytes = generate_pdf_report(res, st.session_state["candidate_name"])
+            st.download_button(
+                label="Download Resume Analysis Report (.PDF)",
+                data=pdf_bytes,
+                file_name=f"ATS_Audit_Report_{st.session_state['candidate_name'].replace(' ', '_')}.pdf",
+                mime="application/pdf"
+            )
+        except Exception as e:
+            st.error(f"PDF generation failed: {str(e)}")
