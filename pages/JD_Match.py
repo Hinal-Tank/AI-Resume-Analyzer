@@ -6,11 +6,9 @@ from utils.llm_handler import call_gemini_with_prompt, get_gemini_client
 
 st.set_page_config(
     page_title="AI Resume Analyzer - JD Match Optimizer",
-    page_icon="🎯",
     layout="wide"
 )
 
-# Dark styled layout structures
 st.markdown("""
 <style>
     .stApp {
@@ -55,10 +53,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🎯 Job Description Matching & Alignment Optimizer")
+st.title("Job Description Matching & Alignment Optimizer")
 st.markdown("Instantly calculate semantic match scores and isolate keyword discrepancies to score maximal Applicant Tracking Index optimization ranges.")
 
-# Load active cached CV values
 if "current_resume_text" not in st.session_state:
     st.session_state["current_resume_text"] = None
 if "current_jd_match_result" not in st.session_state:
@@ -75,9 +72,8 @@ with st.sidebar:
 
 api_configured = get_gemini_client()
 
-# Check context limits
 if not st.session_state["current_resume_text"]:
-    st.warning("⚠️ No parsed resume content located inside memory. First upload your CV on the 'Resume Analysis' page.")
+    st.warning("No parsed resume content located inside memory. First upload your CV on the 'Resume Analysis' page.")
 else:
     left_sub, right_sub = st.columns([2, 3], gap="large")
     
@@ -114,17 +110,16 @@ else:
                         st.success("Successfully completed semantic compare parsing!")
                     else:
                         last_err = st.session_state.get("last_api_error", "Unknown Error")
-                        st.error("❌ Semantic comparison parsing failed. Verify Gemini parameters.")
+                        st.error("Semantic comparison parsing failed. Verify Gemini parameters.")
                         st.error(f"**Error Details:** {last_err}")
                         
     with right_sub:
-        st.markdown("### Semantic Match Metrics")
+        st.markdown("Semantic Match Metrics")
         
         if st.session_state["current_jd_match_result"]:
             match_res = st.session_state["current_jd_match_result"]
             score = match_res.get("matchPercentage", 0)
             
-            # Simple score card visual
             st.markdown(f"""
             <div class="metric-bubble" style="margin-bottom: 24px;">
                 <div style="font-size:12px; text-transform:uppercase; color:#8f909a; font-family:monospace;">Semantic Alignment Fit Gauge</div>
@@ -133,7 +128,6 @@ else:
             </div>
             """, unsafe_allow_html=True)
             
-            # Interactive Plotly alignment gauge bar
             fig_data = pd.DataFrame([
                 {"Metric Gauge": "Match Score", "Percent Align": score},
                 {"Metric Gauge": "Discrepancy Gap", "Percent Align": 100 - score}
@@ -157,7 +151,6 @@ else:
         else:
             st.info("Input target Job details on the left, then click 'Compare' to inspect alignments.")
 
-    # Render complete details below comparison cards
     if st.session_state["current_jd_match_result"]:
         match_out = st.session_state["current_jd_match_result"]
         
@@ -167,32 +160,32 @@ else:
         g1, g2 = st.columns(2, gap="large")
         
         with g1:
-            st.markdown("### Verified Strong Matches Key Keywords")
+            st.markdown("Verified Strong Matches Key Keywords")
             strong_m = match_out.get("strongMatches", [])
             if strong_m:
                 st.write("Identified critical matched keyword indicators matching Job requirements:")
                 for item in strong_m:
-                    st.markdown(f"<span class='badge-matched'>✅ {item}</span>", unsafe_allow_html=True)
+                    st.markdown(f"<span class='badge-matched'> {item}</span>", unsafe_allow_html=True)
             else:
                 st.warning("No direct high matching key keyword sets found in text.")
                 
         with g2:
-            st.markdown("### Identified Discrepant Gaps")
+            st.markdown("Identified Discrepant Gaps")
             missing_k = match_out.get("missingSkills", [])
             if missing_k:
                 st.write("Isolate critical requirements defined in JD but absent in your profile text:")
                 for item in missing_k:
-                    st.markdown(f"<span class='badge-missing'>⚠️ {item}</span>", unsafe_allow_html=True)
+                    st.markdown(f"<span class='badge-missing'>{item}</span>", unsafe_allow_html=True)
             else:
                 st.success("ATS checked complete alignment! Zero direct discrepancies computed.")
 
         st.markdown("---")
-        st.markdown("### Profile Optimization Instructions")
+        st.markdown("Profile Optimization Instructions")
         for suggestion in match_out.get("improvementSuggestions", []):
-            st.markdown(f"📈 **Enhancement Path:** {suggestion}")
+            st.markdown(f"**Enhancement Path:** {suggestion}")
 
         st.markdown("---")
-        st.markdown("### Optimized Tailored Resume Objectives Hook")
+        st.markdown("Optimized Tailored Resume Objectives Hook")
         st.markdown("Substitute your primary intro/objective grids with this ATS index-maximizing, targeted summary hook:")
         
         obj_text = match_out.get("optimizedObjective", "No specific tailored objective rendered.")
