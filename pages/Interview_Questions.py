@@ -4,11 +4,9 @@ from utils.llm_handler import call_gemini_with_prompt, get_gemini_client
 
 st.set_page_config(
     page_title="AI Resume Analyzer - Interview Questions Generator",
-    page_icon="🧠",
     layout="wide"
 )
 
-# Dark theme interactive portal styles
 st.markdown("""
 <style>
     .stApp {
@@ -47,10 +45,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🧠 Professional Adaptive Practice Deck")
+st.title("Professional Adaptive Practice Deck")
 st.markdown("Analyze your parsed CV capabilities, align hard skills, and practice tailored Technical, HR behavior and past Project scale tests.")
 
-# Initialize practice questions stores
 if "current_questions" not in st.session_state:
     st.session_state["current_questions"] = []
 if "current_resume_text" not in st.session_state:
@@ -67,13 +64,12 @@ with st.sidebar:
 
 api_configured = get_gemini_client()
 
-# Check if application context is present in memory
 if not st.session_state["current_resume_text"]:
-    st.warning("⚠️ Practice portals require an active CV uploaded. Go back to the 'Resume Analysis' page and compile your profile.")
+    st.warning("Practice portals require an active CV uploaded. Go back to the 'Resume Analysis' page and compile your profile.")
 else:
-    st.success("✅ Profile context parsed and ready for questions generation.")
+    st.success("Profile context parsed and ready for questions generation.")
     
-    st.markdown("### Choose Training Mode & Set Up Deck")
+    st.markdown("Choose Training Mode & Set Up Deck")
     st.markdown("Click the button below to parse candidate capabilities and generate exactly **20 custom questions** aligned directly with domain experience.")
     
     if not api_configured:
@@ -92,15 +88,13 @@ else:
                     st.success(f"Successfully generated dynamic practicing deck containing: {len(payload['questions'])} balanced questions!")
                 else:
                     last_err = st.session_state.get("last_api_error", "Unknown Error")
-                    st.error("❌ Failed to parse dynamic test decks. Re-trigger parsing loop.")
+                    st.error("Failed to parse dynamic test decks. Re-trigger parsing loop.")
                     st.error(f"**Error Details:** {last_err}")
 
-    # Render dynamic question interfaces if populated
     if st.session_state["current_questions"]:
         st.markdown("---")
         st.subheader("Interactive Questions Grid Interface")
         
-        # Categorized breakdown metric view
         tech_q = [q for q in st.session_state["current_questions"] if q.get("type") == "Technical"]
         hr_q = [q for q in st.session_state["current_questions"] if q.get("type") == "HR"]
         proj_q = [q for q in st.session_state["current_questions"] if q.get("type") == "Project-Based"]
@@ -112,14 +106,12 @@ else:
         
         st.markdown("---")
         
-        # Stagger list categories
         for idx, q_item in enumerate(st.session_state["current_questions"]):
             qtype = q_item.get("type", "Technical")
             difficulty = q_item.get("difficulty", "Medium")
             question_desc = q_item.get("question", "Inquiry description mismatch.")
             sample_ans = q_item.get("sampleAnswer", "No reference sample answers created.")
             
-            # Custom container cards styling with Streamlit expanders as reveal mechanisms
             st.markdown(f"""
             <div class="question-card">
                 <div>
@@ -130,16 +122,13 @@ else:
             </div>
             """, unsafe_allow_html=True)
             
-            # Answer Reveal Mechanism
             with st.expander(f"Reveal Expert Sample Answer Reference / Guide for Question {idx+1}"):
                 st.markdown(f"**Best Practice Reference Answer:**\n*{sample_ans}*")
                 
-                # Dynamic performance log inputs
                 user_notes = st.text_area("Your outline drafting / vocal notes:", key=f"notes_{idx}", placeholder="Write notes here...")
                 if user_notes:
-                    st.caption("📝 Notes stored locally inside session dictionary.")
+                    st.caption("Notes stored locally inside session dictionary.")
 
-        # Download dynamic questions deck list as flat markdown text file
         markdown_deck = f"""# AI RESUME DECK - CUSTOMIZED INTERVIEW DECK
 Candidate: {st.session_state['candidate_name']}
 Generated Practice Questions Output List
