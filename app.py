@@ -8,7 +8,6 @@ load_dotenv()
 # Streamlit general configuration
 tf.set_page_config(
     page_title="AI Resume Analyzer - Dashboard",
-    page_icon="🎯",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -79,7 +78,7 @@ tf.markdown("""
 """, unsafe_allow_html=True)
 
 # Main Title and Overview
-tf.title("🎯 AI Resume Analyzer & Practice Deck")
+tf.title("AI Resume Analyzer")
 
 tf.markdown("""
 Welcome to the **AI Resume Analyzer**, a professional Applicant Tracking System (ATS) feedback platform, alignment engine, and real-time interview coach driven by the Gemini API.
@@ -112,7 +111,7 @@ with tf.sidebar:
     tf.markdown("---")
     tf.markdown("### Quick Statistics Dashboard")
     runs_count = len(tf.session_state["history"])
-    tf.info(f"💾 Active Audited States Saved in Stash: **{runs_count}**")
+    tf.info(f"Active Audited States Saved in Stash: **{runs_count}**")
 
 # Modern layout grid detailing platform parameters
 col1, col2, col3 = tf.columns(3)
@@ -130,7 +129,7 @@ with col2:
     tf.markdown("""
     <div class="metric-card">
         <div class="metric-label">Total Audits</div>
-        <div class="metric-value">💡 LIVE</div>
+        <div class="metric-value">LIVE</div>
         <div style="font-size: 12px; color: #8f909a;">Multi-page active monitoring state</div>
     </div>
     """, unsafe_allow_html=True)
@@ -148,12 +147,12 @@ tf.markdown("### Platform Features Catalog")
 
 tf.markdown("""
 <div class="feature-box">
-    <strong>📋 Real-Time Resume Auditing:</strong> Instantly inspect and display comprehensive score card metrics covering critical technical skills, strengths, opportunities for optimization and soft metrics.
+    <strong>Real-Time Resume Auditing:</strong> Instantly inspect and display comprehensive score card metrics covering critical technical skills, strengths, opportunities for optimization and soft metrics.
 </div>
 <div class="feature-box">
-    <strong>🧠 Adaptive Interview Coaching:</strong> Generate customized exam datasets featuring Technical, Behavioral, and Project-Based modules based on CV parsing outputs.
+    <strong>Adaptive Interview Coaching:</strong> Generate customized exam datasets featuring Technical, Behavioral, and Project-Based modules based on CV parsing outputs.
 </div>
 <div class="feature-box">
-    <strong>🎯 Job Description Alignment:</strong> Perform targeted semantic matching calculations between your current resume assets and a benchmark role description. Identify missing key descriptors.
+    <strong>Job Description Alignment:</strong> Perform targeted semantic matching calculations between your current resume assets and a benchmark role description. Identify missing key descriptors.
 </div>
 """, unsafe_allow_html=True)
