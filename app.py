@@ -2,17 +2,14 @@ import streamlit as tf
 import os
 from dotenv import load_dotenv
 
-# Load variables
 load_dotenv()
 
-# Streamlit general configuration
 tf.set_page_config(
     page_title="AI Resume Analyzer - Dashboard",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom Elegant Dark CSS injection matching the specified design guidelines
 tf.markdown("""
 <style>
     /* Gradient highlight scrollbar */
@@ -77,7 +74,6 @@ tf.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Main Title and Overview
 tf.title("AI Resume Analyzer")
 
 tf.markdown("""
@@ -90,7 +86,6 @@ Use the sidebar layout panel on the left to navigate between different core plat
 3. **Job Description Matching**: Paste a prospective role details panel, discover critical keyword indexing gaps, and generate optimized resume objective highlights.
 """)
 
-# Initialize Session Storing to hold analyses across different pages
 if "history" not in tf.session_state:
     tf.session_state["history"] = []
 if "current_resume_text" not in tf.session_state:
@@ -100,7 +95,6 @@ if "current_analysis" not in tf.session_state:
 if "candidate_name" not in tf.session_state:
     tf.session_state["candidate_name"] = "Nominee"
 
-# Key Checking Interface in Streamlit sidebar
 if "custom_api_key" not in tf.session_state:
     tf.session_state["custom_api_key"] = ""
 
@@ -113,7 +107,6 @@ with tf.sidebar:
     runs_count = len(tf.session_state["history"])
     tf.info(f"Active Audited States Saved in Stash: **{runs_count}**")
 
-# Modern layout grid detailing platform parameters
 col1, col2, col3 = tf.columns(3)
 
 with col1:
