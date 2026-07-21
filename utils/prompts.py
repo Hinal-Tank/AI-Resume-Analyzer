@@ -1,5 +1,3 @@
-# Prompt Engineering Templates for AI Resume Analyzer
-
 RESUME_ANALYSIS_PROMPT_TEMPLATE = """
 You are an elite corporate technical recruiter and ATS algorithms expert.
 Analyze the following candidate resume text and provide a highly rigorous evaluation.
