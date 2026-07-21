@@ -4,16 +4,16 @@ import datetime
 import re
 
 _UNICODE_REPLACEMENTS = {
-    "\u2014": "-",   # em dash
-    "\u2013": "-",   # en dash
-    "\u2018": "'",   # left single quote
-    "\u2019": "'",   # right single quote
-    "\u201c": '"',   # left double quote
-    "\u201d": '"',   # right double quote
-    "\u2026": "...", # ellipsis
-    "\u2022": "-",   # bullet
-    "\u2192": "->",  # right arrow
-    "\u00a0": " ",   # non-breaking space
+    "\u2014": "-",   
+    "\u2013": "-",   
+    "\u2018": "'",   
+    "\u2019": "'",   
+    "\u201c": '"',   
+    "\u201d": '"',   
+    "\u2026": "...", 
+    "\u2022": "-",   
+    "\u2192": "->",  
+    "\u00a0": " ",  
 }
 
 def _sanitize(text: str) -> str:
