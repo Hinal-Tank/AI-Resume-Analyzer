@@ -10,11 +10,9 @@ from utils.pdf_report import generate_pdf_report
 
 st.set_page_config(
     page_title="AI Resume Analyzer - Resume Analysis",
-    page_icon="📋",
     layout="wide"
 )
 
-# Dark theme CSS injection
 st.markdown("""
 <style>
     .stApp {
@@ -53,10 +51,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("📋 Document Upload & Deep Resume Auditing")
+st.title("Document Upload & Deep Resume Auditing")
 st.markdown("Upload your PDF resume below to extract text features and perform a deep-dive structural evaluation.")
 
-# Initialize sessions
 if "history" not in st.session_state:
     st.session_state["history"] = []
 if "current_resume_text" not in st.session_state:
@@ -68,7 +65,6 @@ if "candidate_name" not in st.session_state:
 if "custom_api_key" not in st.session_state:
     st.session_state["custom_api_key"] = ""
 
-# Verify Gemini connection first using both dynamic session input & environment
 from utils.llm_handler import render_sidebar_key_manager
 
 with st.sidebar:
@@ -117,7 +113,6 @@ if st.session_state["current_resume_text"]:
     else:
         if st.button("Analyze & Compute Deep ATS Score Alignment"):
             with st.spinner("Connecting with Gemini AI Core Node... Running ATS evaluations"):
-                # Compile instructions prompt
                 formatted_prompt = RESUME_ANALYSIS_PROMPT_TEMPLATE.format(
                     resume_text=st.session_state["current_resume_text"]
                 )
@@ -127,7 +122,6 @@ if st.session_state["current_resume_text"]:
                 if result_payload:
                     st.session_state["current_analysis"] = result_payload
                     
-                    # Store current run to historic state tracking dictionary
                     record = {
                         "id": str(uuid.uuid4())[:8],
                         "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -141,17 +135,15 @@ if st.session_state["current_resume_text"]:
                     st.success("Successfully generated profile audit! Results cached in session history.")
                 else:
                     last_err = st.session_state.get("last_api_error", "Unknown Error")
-                    st.error("❌ Failed to parse analysis schema response. Try triggering again.")
+                    st.error("Failed to parse analysis schema response. Try triggering again.")
                     st.error(f"**Error Details:** {last_err}")
 
-# If analysis results are currently stored in state, build interactive dashboards
 if st.session_state["current_analysis"]:
     res = st.session_state["current_analysis"]
     
     st.markdown("---")
-    st.subheader(f"📊 Assessment Report - Candidate: {st.session_state['candidate_name']}")
+    st.subheader(f"Assessment Report - Candidate: {st.session_state['candidate_name']}")
     
-    # 3-Column Top Score layouts
     col_score, col_skills, col_gaps = st.columns(3)
     
     with col_score:
@@ -183,7 +175,6 @@ if st.session_state["current_analysis"]:
         </div>
         """, unsafe_allow_html=True)
 
-    # Secondary dynamic content layout splits
     st.markdown("### Profile Executive Overview Highlight")
     st.info(res.get("summary", "No summarization text index generated."))
     
@@ -206,7 +197,6 @@ if st.session_state["current_analysis"]:
             title="Competency Volume Distribution Chart",
             color_discrete_sequence=["#4f46e5", "#10b981", "#f59e0b"]
         )
-        # Apply strict dark styles to the Plotly charts to look high contrast
         fig.update_layout(
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
@@ -236,25 +226,24 @@ if st.session_state["current_analysis"]:
         
         st.markdown("#### Found Core Strengths:")
         for str_item in res.get("strengths", []):
-            st.markdown(f"✅ {str_item}")
+            st.markdown(f"{str_item}")
             
         st.markdown("#### Identified Limitations/Weaknesses:")
         for weak_item in res.get("weaknesses", []):
-            st.markdown(f"⚠️ {weak_item}")
+            st.markdown(f"{weak_item}")
             
         st.markdown("#### Modern Target Gaps Recommendations:")
         for missing_item in res.get("missingSkills", []):
-            st.markdown(f"🚫 Missing requirement: **{missing_item}**")
+            st.markdown(f" Missing requirement: **{missing_item}**")
 
     st.markdown("---")
     st.markdown("### Actionable Enhancement Suggestions List")
     for suggestion in res.get("recommendations", []):
-        st.markdown(f"🎯 **How to Optimize:** {suggestion}")
+        st.markdown(f"**How to Optimize:** {suggestion}")
 
     st.markdown("---")
     st.markdown("### Export Current Audited Report")
     
-    # Custom text report builder for direct downloading
     report_text = f"""=============================================
 AI RESUME ANALYZER AUDIT REPORT
 Generated Timestamp: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
