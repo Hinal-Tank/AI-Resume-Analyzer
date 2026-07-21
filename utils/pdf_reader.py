@@ -13,7 +13,6 @@ def extract_text_from_pdf(pdf_file) -> Optional[str]:
         str: Extracted clean text, or None if extraction fails.
     """
     try:
-        # If it's bytes, wrap it in io.BytesIO
         if isinstance(pdf_file, bytes):
             pdf_file = io.BytesIO(pdf_file)
             
