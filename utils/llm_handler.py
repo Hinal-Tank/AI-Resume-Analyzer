@@ -207,8 +207,7 @@ def render_sidebar_key_manager():
     """
     st.image(
         "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=300", 
-        width=230, 
-        caption="Analysis Portal Powered by Google Gemini"
+        width=230
     )
     
     active_key = get_active_api_key()
